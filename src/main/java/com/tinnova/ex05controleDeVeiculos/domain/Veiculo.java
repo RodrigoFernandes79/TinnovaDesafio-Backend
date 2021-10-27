@@ -22,28 +22,24 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Veiculo implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String veiculo;
 	private String marca;
 	private Integer ano;
-	@Column(columnDefinition ="TEXT")
+	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	private boolean vendido;
-	@JsonFormat(timezone = "America/Recife")
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant created;
-	@JsonFormat(timezone = "America/Recife")
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant updated;
-	
-	
-	
+
 	public Veiculo() {
-		
+
 	}
-
-
 
 	public Veiculo(Long id, String veiculo, String marca, Integer ano, String descricao, boolean vendido,
 			Instant created, Instant updated) {
@@ -58,100 +54,69 @@ public class Veiculo implements Serializable {
 		this.updated = updated;
 	}
 
-
-
 	public Long getId() {
 		return id;
 	}
-
-
 
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-
-
 	public String getVeiculo() {
 		return veiculo;
 	}
-
-
 
 	public void setVeiculo(String veiculo) {
 		this.veiculo = veiculo;
 	}
 
-
-
 	public String getMarca() {
 		return marca;
 	}
-
-
 
 	public void setMarca(String marca) {
 		this.marca = marca;
 	}
 
-
-
 	public Integer getAno() {
 		return ano;
 	}
-
-
 
 	public void setAno(Integer ano) {
 		this.ano = ano;
 	}
 
-
-
 	public String getDescricao() {
 		return descricao;
 	}
 
-
-
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
+
 	public boolean isVendido() {
 		return vendido;
 	}
-
-
 
 	public void setVendido(boolean vendido) {
 		this.vendido = vendido;
 	}
 
-
 	public Instant getCreated() {
 		return created;
 	}
-
-
 
 	public void setCreated(Instant created) {
 		this.created = created;
 	}
 
-
-
 	public Instant getUpdated() {
 		return updated;
 	}
 
-
-
 	public void setUpdated(Instant updated) {
 		this.updated = updated;
 	}
-
-
 
 	@Override
 	public int hashCode() {
@@ -160,8 +125,6 @@ public class Veiculo implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -180,17 +143,5 @@ public class Veiculo implements Serializable {
 		return true;
 	}
 
-
-
-	
-
-
-
-	
-
-
-	
-
 }
-
 	
