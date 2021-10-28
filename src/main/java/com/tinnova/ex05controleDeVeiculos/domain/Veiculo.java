@@ -29,12 +29,9 @@ public class Veiculo implements Serializable {
 	private String veiculo;
 	private String marca;
 	private Integer ano;
-	@Column(columnDefinition = "TEXT")
 	private String descricao;
 	private boolean vendido;
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant created;
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant updated;
 
 	public Veiculo() {
