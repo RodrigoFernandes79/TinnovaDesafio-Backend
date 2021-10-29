@@ -1,13 +1,14 @@
 package com.tinnova.ex05controleDeVeiculos.resource;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tinnova.ex05controleDeVeiculos.Dto.VeiculosNaoVendidosDto;
 import com.tinnova.ex05controleDeVeiculos.domain.Veiculo;
 import com.tinnova.ex05controleDeVeiculos.exception.ObjectNotFoundException;
 import com.tinnova.ex05controleDeVeiculos.service.VeiculoService;
@@ -62,5 +64,19 @@ public class VeiculoResource {
 
 	}
 
-}
+	@GetMapping("/VeiculosNaoVendidos")
+	public ResponseEntity<VeiculosNaoVendidosDto> buscarQuantNaoVendida() {
+		VeiculosNaoVendidosDto obj = repository.buscarQuantNaoVendida();
+		return ResponseEntity.ok().body(obj);
 
+	}
+
+	@PatchMapping("/{id}")
+	public ResponseEntity<Veiculo> buscarDadosParcial(@PathVariable Long id, @RequestBody Veiculo veiculo)
+			throws ObjectNotFoundException {
+		Veiculo obj = repository.buscarDadosParcial(id, veiculo);
+		return ResponseEntity.ok().body(obj);
+
+	}
+
+}
