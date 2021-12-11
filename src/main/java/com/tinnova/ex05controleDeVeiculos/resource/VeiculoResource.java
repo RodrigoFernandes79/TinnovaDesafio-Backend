@@ -2,10 +2,11 @@ package com.tinnova.ex05controleDeVeiculos.resource;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.tinnova.ex05controleDeVeiculos.Dto.VeiculosNaoVendidosDto;
 import com.tinnova.ex05controleDeVeiculos.domain.Veiculo;
-import com.tinnova.ex05controleDeVeiculos.exception.ObjectNotFoundException;
 import com.tinnova.ex05controleDeVeiculos.service.VeiculoService;
 
 @RestController
@@ -30,7 +30,7 @@ public class VeiculoResource {
 	private VeiculoService repository;
 
 	@PostMapping
-	public ResponseEntity<Veiculo> criarVeiculo(@RequestBody Veiculo veiculo) {
+	public ResponseEntity<Veiculo> criarVeiculo(@RequestBody @Valid Veiculo veiculo) {
 		Veiculo obj = repository.criarVeiculo(veiculo);
 		return ResponseEntity.status(HttpStatus.CREATED).body(obj);
 
@@ -44,7 +44,7 @@ public class VeiculoResource {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Veiculo> listarPorId(@PathVariable Long id) throws ObjectNotFoundException {
+	public ResponseEntity<Veiculo> listarPorId(@PathVariable Long id)  {
 		Veiculo obj = repository.listarPorId(id);
 		return ResponseEntity.ok().body(obj);
 
@@ -52,13 +52,13 @@ public class VeiculoResource {
 
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deletarPorId(@PathVariable Long id) throws ObjectNotFoundException {
+	public void deletarPorId(@PathVariable Long id) {
 		repository.deletarPorId(id);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Veiculo> atualizarDados(@PathVariable Long id, @RequestBody Veiculo veiculo)
-			throws ObjectNotFoundException {
+	public ResponseEntity<Veiculo> atualizarDados(@PathVariable Long id, @RequestBody @Valid Veiculo veiculo){
+			 
 		Veiculo obj = repository.atualizarDados(id, veiculo);
 		return ResponseEntity.ok().body(obj);
 
@@ -73,7 +73,7 @@ public class VeiculoResource {
 
 	@PatchMapping("/{id}")
 	public ResponseEntity<Veiculo> buscarDadosParcial(@PathVariable Long id, @RequestBody Veiculo veiculo)
-			throws ObjectNotFoundException {
+			 {
 		Veiculo obj = repository.buscarDadosParcial(id, veiculo);
 		return ResponseEntity.ok().body(obj);
 

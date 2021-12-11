@@ -1,14 +1,15 @@
 package com.tinnova.ex05controleDeVeiculos.domain;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDate;
 
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -26,20 +27,25 @@ public class Veiculo implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@NotBlank(message="Campo Obrigatório!")
 	private String veiculo;
+	@NotBlank(message="Campo Obrigatório!")
 	private String marca;
+	@NotNull(message="Campo Obrigatório!")
 	private Integer ano;
 	private String descricao;
 	private boolean vendido;
-	private Instant created;
-	private Instant updated;
+	@JsonFormat(pattern="dd/MM/yyyy")
+	private LocalDate created;
+	@JsonFormat(pattern="dd/MM/yyyy")
+	private LocalDate updated;
 
 	public Veiculo() {
 
 	}
 
 	public Veiculo(Long id, String veiculo, String marca, Integer ano, String descricao, boolean vendido,
-			Instant created, Instant updated) {
+			LocalDate created, LocalDate updated) {
 		super();
 		this.id = id;
 		this.veiculo = veiculo;
@@ -49,6 +55,11 @@ public class Veiculo implements Serializable {
 		this.vendido = vendido;
 		this.created = created;
 		this.updated = updated;
+	}
+	
+	@PrePersist
+	public void criarDataCadastro() {
+		 setCreated(LocalDate.now());
 	}
 
 	public Long getId() {
@@ -98,20 +109,20 @@ public class Veiculo implements Serializable {
 	public void setVendido(boolean vendido) {
 		this.vendido = vendido;
 	}
-
-	public Instant getCreated() {
+	
+	public LocalDate getCreated() {
 		return created;
 	}
-
-	public void setCreated(Instant created) {
+	
+	public void setCreated(LocalDate created) {
 		this.created = created;
 	}
 
-	public Instant getUpdated() {
+	public LocalDate getUpdated() {
 		return updated;
 	}
 
-	public void setUpdated(Instant updated) {
+	public void setUpdated(LocalDate updated) {
 		this.updated = updated;
 	}
 

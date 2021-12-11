@@ -1,23 +1,18 @@
 package com.tinnova.ex05controleDeVeiculos.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.tinnova.ex05controleDeVeiculos.Dto.VeiculosNaoVendidosDto;
-
 import com.tinnova.ex05controleDeVeiculos.domain.Veiculo;
-import com.tinnova.ex05controleDeVeiculos.exception.ObjectNotFoundException;
 import com.tinnova.ex05controleDeVeiculos.repository.VeiculoRepository;
+
 
 @Service
 public class VeiculoService {
@@ -35,19 +30,20 @@ public class VeiculoService {
 		return obj;
 	}
 
-	public Veiculo listarPorId(Long id) throws ObjectNotFoundException {
+	public Veiculo listarPorId(Long id) {
 		Optional<Veiculo> obj = repository.findById(id);
-		obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!"));
+		obj.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id " + id + " não encontrado!"));
 		return obj.get();
 	}
 
-	public void deletarPorId(Long id) throws ObjectNotFoundException {
-		repository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Id " + id + " não encontrado!"));
+	public void deletarPorId(Long id){
+		repository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id " + id + " não encontrado!"));
 		repository.deleteById(id);
 	}
-
-	public Veiculo atualizarDados(Long id, Veiculo veiculo) throws ObjectNotFoundException {
-		return repository.findById(id).map(record -> {
+	
+	public Veiculo atualizarDados( Long id,  Veiculo veiculo){
+		return repository.findById(id)
+			.map(record -> {
 			record.setVeiculo(veiculo.getVeiculo());
 			record.setMarca(veiculo.getMarca());
 			record.setAno(veiculo.getAno());
@@ -56,9 +52,11 @@ public class VeiculoService {
 			record.setUpdated(veiculo.getUpdated());
 			Veiculo obj = repository.save(record);
 			return obj;
-		}).orElseThrow(() -> new ObjectNotFoundException("Id " + id + " não encontrado!"));
+			
+		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id " + id + " não encontrado!"));
 
-	}
+}
+
 
 	public VeiculosNaoVendidosDto buscarQuantNaoVendida() {
 
@@ -67,12 +65,12 @@ public class VeiculoService {
 		return obj;
 	}
 
-	public Veiculo buscarDadosParcial(Long id, Veiculo veiculo) throws ObjectNotFoundException {
+	public Veiculo buscarDadosParcial(Long id, Veiculo veiculo) {
 		return repository.findById(id).map(record -> {
 			record.setVendido(veiculo.isVendido());
 			Veiculo obj = repository.save(record);
 			return obj;
-		}).orElseThrow(() -> new ObjectNotFoundException("Id " + id + " não encontrado!"));
+		}).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Id " + id + " não encontrado!"));
 	}
 
-}
+	}
